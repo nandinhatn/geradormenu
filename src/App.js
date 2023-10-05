@@ -1,24 +1,44 @@
 import logo from './logo.svg';
-import './App.css';
+import {createBrowserRouter, 
+  RouterProvider,
+  Router,
+  BrowserRouter,
+  Route,
+  Routes
+} from 'react-router-dom'
+import {useState, useEffect, useContext} from 'react';
+import Menu from './Components/Menu';
+
+const router = createBrowserRouter([
+  {
+    path:"/",
+    element: <Home/>
+  }, 
+  {
+    path:"/menu",
+    element: <Menu/>
+  }
+])
+
+import Home from './Components/Home';
+import { MyContext } from './MyContext';
+import {Container} from './styles'
 
 function App() {
+  const [prodSelect, setProdSelect]= useState([])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <MyContext.Provider value={{prodSelect, setProdSelect}}>
+    <Container>
+
+    <BrowserRouter>
+    <Routes>
+      <Route index path="/bolandoarte/geradormenu" element={<Home/>} />
+    {/*   <Route index path="/" element={<Home/>} /> */}
+      <Route  path="/bolandoarte/geradormenu/menu" element={<Menu/>} />
+    </Routes>
+    </BrowserRouter>
+    </Container>
+      </MyContext.Provider>
   );
 }
 
