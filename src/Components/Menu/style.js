@@ -42,7 +42,8 @@ flex-direction: ${(props)=> props.configs==='column'?'column':'row'};
 
 export const Container = styled.div`
 width: 680px;
-
+// layout duas colunas aumentar a largura
+width: ${(props)=> props.configs=="row" ? '800px' :'680px'};
 background-color: gray;
 display: flex;
 flex-direction: column;
@@ -84,7 +85,11 @@ font-family:${(props)=> props.font};
 `;
 
 export const Itens = styled.div`
-display: flex;
+ display: flex; 
+
+/* width: 190px; */
+width: ${(props)=> props.layoutInteger==='false'? '190px':''};
+align-items: center;
 
 /* background-color: rgba(237, 241,237, 0.7); */
 
@@ -258,7 +263,16 @@ margin-bottom : 40px;
 
 
 `} 
+${({layout, fotos, length,layoutInteger})=> layoutInteger &&`
+position:absolute;
+top:30px;
+left:500px;
 
+
+
+
+
+`}
 
 /* 
 
@@ -290,12 +304,13 @@ display: flex;
 justify-content: center;
 align-items: center;
 font-family: 'Roboto', sans-serif;
-margin-top: 20px;
+/* margin-top: 20px; */
 font-size:14px;
-gap:20px;
+/* gap:20px; */
 flex-wrap: wrap;
-margin-bottom:20px;
+/*  margin-bottom:20px; */
 margin-top:20px;
+
 
 
 
@@ -316,8 +331,18 @@ color:${(props)=> props.priceCor? props.corTextoPrice :  props.sabores? props.co
 padding: 8px;
 font-family: ${(props)=> props.priceCor? props.fontFamily : props.sabores? props.fontFamilySabores : 'Roboto, sans-serif' };
 font-size: ${(props)=> props.priceCor? props.priceSize +'px' : props.sabores? props.sizeSabores + 'px' :  '14px'};
+display: flex;
+margin-left: 20px;
 
 
+
+
+
+`;
+export const ContainerMedidasInner = styled.div`
+display: flex;
+flex-direction: column;
+width: 200px;
 
 `;
 
@@ -364,6 +389,10 @@ font-size: ${(props)=> props.size + 'px'};
 font-family: ${(props)=> props.font};
 margin-top: 5px;
 margin-left: 20px;
+padding: 20px;
+text-align: justify;
+width: 90%;
+
 `;
 
 export const ContainerMenu= styled.div`
@@ -373,11 +402,14 @@ grid-template-columns: 4fr 1fr 1fr ;
 border-bottom: 1px solid gray;
 margin-left: 20px; */
 
+
+
 ${({layout, fotos})=> layout===false && `
 display:flex;
 justify-content:center;
 border-bottom: 2px solid #532539;
 margin-left: 20px;
+
 
 
 
@@ -433,6 +465,7 @@ margin-left: 20px;
 margin-right: 20px;
 display: flex;
 
+
 align-items: center;
 
 
@@ -448,7 +481,7 @@ align-items: center;
 ${({formatLayout, fotos})=> formatLayout==='row' && `
 display: flex;
 flex-wrap: wrap;
-justify-content: center;
+justify-content: space-around;
 
 
 
@@ -457,7 +490,9 @@ justify-content: center;
 
 
 `} 
-padding-bottom: 30px;
+/* padding-bottom: 30px; */
+
+
 
 `;
 
@@ -526,7 +561,18 @@ height: 100vh;
 
 export const ContainerMenuInner = styled.div`
 display: flex;
+/* flex-direction: column; */
 flex-direction: column;
+justify-content: center;
+
+
+`;
+export const ContainerMenuInnerInterno = styled.div`
+display: flex;
+/* flex-direction: column; */
+
+flex-direction: column;
+flex-direction: ${(props)=> props.configs=='row'? 'row': ''};
 justify-content: center;
 
 

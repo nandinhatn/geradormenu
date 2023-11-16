@@ -32,9 +32,9 @@ function App() {
 
     <BrowserRouter>
     <Routes>
-      <Route index path="/bolandoarte/geradormenu" element={<Home/>} />
+      <Route index path="/geradormenu" element={<Home/>} />
     {/*   <Route index path="/" element={<Home/>} /> */}
-      <Route  path="/bolandoarte/geradormenu/menu" element={<Menu/>} />
+      <Route  path="/geradormenu/menu" element={<Menu/>} />
     </Routes>
     </BrowserRouter>
     </Container>

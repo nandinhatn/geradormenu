@@ -253,7 +253,7 @@ const Home = ()=>{
        : ''}
   </ContainerItens>
   {prodSelect.length>0 ?  
-  <Buttons actions={() =>  navigate('/bolandoarte/geradormenu/menu')} title={'Gerar menu'}/>
+  <Buttons actions={() =>  navigate('/geradormenu/menu')} title={'Gerar menu'}/>
 /*   <Buttons actions={() =>  navigate('/menu')} title={'Gerar menu'}/> */
   : 
   

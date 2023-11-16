@@ -24,6 +24,8 @@ import {
      ContainerProdTotal, 
      ContainerProd, 
      ContainerMenuInner, 
+     ContainerMenuInnerInterno,
+     ContainerMedidasInner,
      ImgProd, 
      ExibMenuTotal, 
      ExibMenu,
@@ -111,12 +113,13 @@ const Menu = (props)=>{
     const [footerSize, setFooterSize]= useState(16)
     const [colorDescription, setColorDescription] = useState('black')
     const [sizeDescription, setSizeDescription] = useState('14px')
+    const [exibDescription, setExibDescription] = useState(false)
     const [menuImageSize, setMenuImageSize] = useState('60')
     const [photoMenu, setPhotoMenu] = useState(true)
     const [exibPhotoMenu, setExibPhotoMenu] = useState(true)
     const [photoBorderColor, setPhotoBorderColor] =useState('#532539')
     const [textSite, setTextSite] = useState('www.bolandoarte.com.br');
-    const [textPhone, setTextPhone] = useState('XXXXXXXXXXXX')
+    const [textPhone, setTextPhone] = useState('(11) 98315-5511')
     const [exibTextFooter, setExibTextFooter]= useState(false)
     const [listMedidas, setListMedidas] = useState('')
     const [loading, setLoading] = useState(false)
@@ -345,7 +348,7 @@ const Menu = (props)=>{
      
      function backPage(){
         setProdSelect([])
-        navigate('/bolandoarte/geradormenu/')
+        navigate('/geradormenu/')
      }
 
      useEffect(()=>{
@@ -455,19 +458,19 @@ const Menu = (props)=>{
                 
                 
                 <ContainerOptions>
-{layoutColumns==='column' ?  
+{layoutColumns==='column' && !layoutInteger ?  
  <>
  <Buttons actions={()=> setPosLogo('right')} title="Direita"/>
 <Buttons actions={()=> setPosLogo('left')} title="Esquerda"/>
 <Buttons actions={()=> setPosLogo('center')} title="Centro"/>
-</> : 
+</> : !layoutInteger?
 
 
 <>
 <Buttons actions={()=> setPosLogo('start')} title="Topo"/>
 <Buttons actions={()=> setPosLogo('center')} title="Centro"/>
 <Buttons actions={()=> setPosLogo('end')} title="Embaixo"/>
-</>}
+</>:''}
 
 
 
@@ -475,10 +478,18 @@ const Menu = (props)=>{
 
 </ContainerOptions>
 <SlideControl title={"Tamanho"} min={100} max={250} action={(e)=> setWidthLogo(e)}/>
-                <ContainerThumbs>
 
- <ImageThumbs width={50} 
- src={LogoMarfin} onClick={()=> setLogos(LogoMarfin,false)}/>
+{layoutInteger?  <ContainerThumbs>
+
+<ImageThumbs width={50} 
+src={LogoMarfin} onClick={()=> setLogos(LogoMarfin,false)}/>
+<ImageThumbs width={50} 
+src={Logo} onClick={()=> setLogos(Logo,false)}/>
+
+               </ContainerThumbs>:  <ContainerThumbs>
+
+<ImageThumbs width={50} 
+src={LogoMarfin} onClick={()=> setLogos(LogoMarfin,false)}/>
 <ImageThumbs width={50} 
 src={Logo} onClick={()=> setLogos(Logo,false)}/>
 <ImageThumbs width={50} 
@@ -486,8 +497,8 @@ src={LogoRetBord} onClick={()=> setLogos(LogoRetBord,true)}/>
 <ImageThumbs 
 width={50} src={LogoRetMarfim} onClick={()=> setLogos(LogoRetMarfim,true)}
 />
-                </ContainerThumbs>
-                
+               </ContainerThumbs>}
+              
                 
 {/* <SlideControl title={"Arrendodado"} min={0} max={200} action={(e)=> setRadius(e)}/> */}
                 
@@ -529,6 +540,11 @@ width={50} src={LogoRetMarfim} onClick={()=> setLogos(LogoRetMarfim,true)}
 
 <MenuConfig color={colorDescription} title={"Cor descrição"} changeColor={(e)=> setColorDescription(e)}/>
 <SlideControl title={"Tamanho Descrição"} min={10} max={100} action={(e)=> setSizeDescription(e)}/>
+<Buttons 
+                           icon={<AiOutlineEye size={30}/>} 
+                           icon2={<AiOutlineEyeInvisible size={30}/>} /* exib={checkVisible("PhotosMenu")} */
+                            title={exibDescription? 'Esconder Descrição': 'Mostrar Descrição'}
+                            actions={()=>setExibDescription(!exibDescription)}/>
 </> : ''}
 
 <TitleMenu> Fontes Titulos do Menu </TitleMenu>
@@ -959,6 +975,19 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
 
             <ContainerConfigs configs={layoutColumns}>
 
+            {layoutInteger==true?   <ContainerImage
+            positionLogo={posLogo}
+               layoutInteger={layoutInteger}
+          /*    layout={layout} 
+             configs={layoutColumns} 
+             length={widthLogo} 
+             fotos={topoFoto}  
+          
+             
+             background={backgroundColors} */
+             >
+            <ImageLogo length={widthLogo} rect={rect} radius={radius} src={logoImg}></ImageLogo>
+        </ContainerImage>: ''}
      
             {layoutInteger===false? 
             
@@ -967,6 +996,7 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
              configs={layoutColumns} 
              length={widthLogo} 
              fotos={topoFoto}  
+             layoutInteger={layoutInteger}
              positionLogo={posLogo}
              background={backgroundColors}
              >
@@ -1005,7 +1035,7 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
                     
                     : ''}
                   
-              <ContainerMenuInner>
+              <ContainerMenuInnerInterno configs={layoutColumns}>
                 {layoutInteger? <>
                 <TopoInteger fotos={`https://www.poppytecnologias.com.br/api_bolando/images/${selectImage(el.id_product)}`}>
                 <Categorias  fontSize={fontSizeCategoria}
@@ -1018,18 +1048,7 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
               <Itens layout={layoutInteger} size={titleSize} font={fontTitle} color={color}>{el.products_name} </Itens>
              
 
-              <Itens size={priceSize} color={colorPrice}>
-                
-             {/*  {loading? getPrice(el.id_product).map((el)=>{
-                  return(
-                      <>
-                    <div>{el.measures_title}</div>
-                  
-                    </>
-                )
-            }): ''} */}
-                </Itens>
-
+           
               {/* <Itens size={priceSize} color={colorPrice}>
                 {loading? getPrice(el.id_product).map((el)=>{
                 return(
@@ -1086,25 +1105,31 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
                     priceSize={priceSize}
                     fontFamily={fontFamilyPrice}
                     corTextoPrice={corTextoPrice}
-                    priceCor={true}>{el.measures_title}-R$ {el.price}</MedidasSabores>
+                    priceCor={true}>
+                        <ContainerMedidasInner>
+                        {el.measures_title}-R$ {el.price}
+                        </ContainerMedidasInner>
+                       </MedidasSabores>
                   
                     </>
                 )
             }): ''}
                 </ContainerMedidas> 
                 <ContainerMedidas>
-                <Divisor/>
+                {/* <Divisor/> */}
                 </ContainerMedidas>
-         <ItensDescription 
+                {el.products_description !="" && exibDescription  ?   <ItensDescription 
          font={fontFamilyDescription} color={colorDescription} 
          size={sizeDescription}>
             {el.products_description}
            
-            </ItensDescription>
+            </ItensDescription>: ''}
+       
             <ContainerMedidas>
-                <Divisor/>
+              {/*   <Divisor/> */}
                 </ContainerMedidas>
-            <ItensDescription
+
+                {getObservacoes(el.id_product)!=""?     <ItensDescription
             color={colorDescription}
             size={sizeDescription}
             font={fontFamilyDescription}
@@ -1135,8 +1160,9 @@ title={"Cor Fundo Textos"} changeColor={(e)=> setBackColorContainer(e)}/>
             </ItensDescription>
     
         
-              
-              </ContainerMenuInner>
+              : ''}
+        
+              </ContainerMenuInnerInterno>
           
             
             
